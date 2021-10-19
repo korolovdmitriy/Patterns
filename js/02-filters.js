@@ -44,9 +44,11 @@ function onSelectFilter(event) {
         selectedFilters.add(nextFilterValue);
     }
     
-    nextFilterEl.classList.toggle('is-selected');
-    
-    renderCourses(getFilteredCourses(selectedFilters));
+  nextFilterEl.classList.toggle('is-selected');
+
+  if (selectedFilters.size === 0) return renderCourses(courses);
+   
+  renderCourses(getFilteredCourses(selectedFilters));
 }
 
 function getFilteredCourses(filter) {
