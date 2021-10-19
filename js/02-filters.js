@@ -43,18 +43,17 @@ function onSelectFilter(event) {
     } else {
         selectedFilters.add(nextFilterValue);
     }
-    console.log(selectedFilters);
-
+    
     nextFilterEl.classList.toggle('is-selected');
     
-    renderCourses(getFilteredCourses(...selectedFilters));
+    renderCourses(getFilteredCourses(selectedFilters));
 }
-
 
 function getFilteredCourses(filter) {
     console.log(filter);
-    
-    return courses.filter(course => course.tags.includes(filter));
+    let filteredCourses = [];
+    filter.forEach(el => filteredCourses.push(...courses.filter(course => course.tags.includes(el))));
+    return filteredCourses;
 }
 
 function renderCourses(courses) {
