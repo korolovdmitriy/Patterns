@@ -50,7 +50,6 @@ function onSelectFilter(event) {
 }
 
 function getFilteredCourses(filter) {
-    console.log(filter);
     let filteredCourses = [];
     filter.forEach(el => filteredCourses.push(...courses.filter(course => course.tags.includes(el))));
     return filteredCourses;
