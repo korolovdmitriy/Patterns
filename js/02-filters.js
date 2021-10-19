@@ -15,6 +15,8 @@ const courses = [
 const filters = [...new Set(courses.flatMap(course => course.tags))];
 const filtersContainer = document.querySelector('.filters');
 const coursesContainer = document.querySelector('.courses');
+const selectedFilters = new Set([]);
+
 
 filtersContainer.addEventListener('click', onSelectFilter);
 renderFilters();
@@ -34,16 +36,25 @@ function onSelectFilter(event) {
   const nextFilterEl = event.target;
   const nextFilterValue = nextFilterEl.dataset.value;
   if (!nextFilterValue) return;
+    
+    const isActive = nextFilterEl.classList.contains('is-selected');
+    if (isActive) {
+        selectedFilters.delete(nextFilterValue);
+    } else {
+        selectedFilters.add(nextFilterValue);
+    }
+    console.log(selectedFilters);
 
-  const prevFilterEl = filtersContainer.querySelector('.is-selected');
-  if (prevFilterEl) {
-    prevFilterEl.classList.remove('is-selected');
-  }
-  if (nextFilterEl === prevFilterEl) {
-    return renderCourses(courses);
-  }
-  nextFilterEl.classList.add('is-selected');
-  renderCourses(getFilteredCourses(nextFilterValue));
+    nextFilterEl.classList.toggle('is-selected');
+    
+    renderCourses(getFilteredCourses(...selectedFilters));
+}
+
+
+function getFilteredCourses(filter) {
+    console.log(filter);
+    
+    return courses.filter(course => course.tags.includes(filter));
 }
 
 function renderCourses(courses) {
@@ -55,8 +66,4 @@ function renderCourses(courses) {
     )
     .join('');
   coursesContainer.insertAdjacentHTML('beforeend', markup);
-}
-
-function getFilteredCourses(filter) {
-  return courses.filter(course => course.tags.includes(filter));
 }
